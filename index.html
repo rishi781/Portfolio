@@ -1,0 +1,576 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portfolio</title>
+    <style>
+        /* Base Styles */
+      
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        .about-content {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+            text-align: left; /* Ensure text is aligned to the left */
+        }
+
+        .avatar {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            overflow: hidden;
+            flex-shrink: 0;
+        }
+
+        .avatar img {
+            width: 10px;
+            height: 10px;
+            
+        }
+
+        .about-text {
+            flex: 1; /* Make the text take available space */
+        }
+
+        .about-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .about-buttons a {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            padding: 10px 20px;
+            border-radius: 5px;
+            border: 1px solid black;
+            color: black;
+            font-size: 14px;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        .about-buttons a:hover {
+            background-color: black;
+            color: #fff;
+        }
+
+        body.dark .about-buttons a {
+    background-color: #FEBA01;
+    color: #000; /* Black text color */
+    border-color: #000; /* Black border */
+}
+
+body.dark .about-buttons a:hover {
+    background-color: white; /* Black background on hover */
+    color: black; /* White text on hover */
+}
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            background-color: #f4f4f9;
+            color: #333;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        body.dark {
+            background-color: #121212;
+            color: #d1d1d1;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        /* Scroll Progress Bar */
+        #progressBar {
+            height: 4px;
+            background-color:#FEBA01;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 0;
+            z-index: 1000;
+        }
+
+        /* Header */
+        header {
+            background-color: #fff;
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #ddd;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            transition: background-color 0.3s;
+        }
+      
+
+        header.dark {
+            background-color: #1f1f1f;
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            gap:40px;
+        }
+
+        nav ul li button {
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 18px;
+            color: black;
+            transition: color 0.3s;
+            padding: 10px;
+        }
+
+        nav ul li button:hover {
+            color: black;
+            
+            border-radius: 5px;
+            background-color: #FEBA01;
+            box-shadow: 2px 2px 5px gray;
+        }
+
+        .toggle-container {
+            position: relative;
+            width: 50px;
+            height: 25px;
+            background: #ddd;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+
+        .toggle-container.dark {
+            background: black;
+        }
+
+        .toggle-circle {
+            position: absolute;
+            top: 3px;
+            left: 3px;
+            width: 19px;
+            height: 19px;
+            background: #fff;
+            border-radius: 50%;
+            transition: left 0.3s;
+        }
+
+        .toggle-container.dark .toggle-circle {
+            left: 26px;
+        }
+
+        /* Main Content */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+    
+        .card {
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
+            padding: 50px;
+            margin: 20px auto;
+            width: 70%;
+            text-align: left;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .dark .card {
+            background-color: #1f1f1f;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .skills-bar {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin: 15px 0;
+    position: relative;
+}
+
+.skills-bar label {
+    min-width: 100px;
+    font-weight: bold;
+}
+
+.bar-container {
+    flex: 1;
+    height: 20px;
+    background-color: #ddd;
+    position: relative;
+    border-radius: 5px;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+}
+
+.bar-container::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: var(--fill);
+    background-color: #FEBA01;
+    border-radius: 5px;
+    z-index: 1;
+    transition: width 0.3s ease;
+}
+
+.percentage {
+    position: absolute;
+    right: 10px;
+    font-size: 12px;
+    font-weight: bold;
+    color: #333;
+    z-index: 2;
+}
+
+body.dark .bar-container::after {
+    background-color: #FEBA01; /* Yellow for dark mode */
+}
+        .list-item {
+            margin: 10px 0;
+        }
+
+        .list-item strong {
+            font-weight: bold;
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 20px;
+            background-color: #fff;
+            border-top: 1px solid #ddd;
+        }
+
+        .dark footer {
+            background-color: #1f1f1f;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .card {
+                width: 90%;
+            }
+
+            header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            nav ul {
+                flex-direction: column;
+                gap: 10px;
+            }
+
+            .about-content {
+                flex-direction: column;
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Scroll Progress Bar -->
+    <div id="progressBar"></div>
+
+    <!-- Header -->
+    <header>
+        <nav>
+            <ul>
+                <li><button onclick="scrollToSection('about')">About</button></li>
+                <li><button onclick="scrollToSection('course')">Course</button></li>
+                <li><button onclick="scrollToSection('projects')">Projects</button></li>
+                <li><button onclick="scrollToSection('education')">Education</button></li>
+                <li><button onclick="scrollToSection('internship')">Internship</button></li>
+                <li><button onclick="scrollToSection('skills')">Skills</button></li>
+                <li><button onclick="scrollToSection('contact')">Contact</button></li>
+            </ul>
+        </nav>
+        <div id="themeToggle" class="toggle-container">
+            <div class="toggle-circle"></div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <div class="container">
+        <!-- About Section -->
+        <div class="card" id="about">
+            <div class="about-content">
+                <div class="">
+                    <img src="rishi_photo.jpg" height="120px" width="120px" alt="Rishi S">
+                </div>
+                <div class="about-text">
+                    <h1>Rishi S</h1>
+                    <p>Detail-oriented Computer Science graduate with hands-on experience in full-stack development using Java (Spring Boot),
+                         ReactJS, and MySQL, along with practical expertise in Python programming. Proficient in Manual and Automation Testing using Selenium 
+                         with Java, with hands-on experience in writing test cases, executing automation scripts, and analyzing results. Skilled in C, C++, 
+                         and MS Excel, with a strong foundation in data structures, algorithms, and web technologies. Passionate about software development, 
+                         quality assurance, and AI applications, and eager to contribute technical abilities to real-world projects in a dynamic, 
+                         growth-focused organization.</p>
+                </div>
+            </div>
+            <div class="about-buttons">
+                <a href="https://www.linkedin.com/in/rishi-shankarappa-694127346/" target="_blank">
+                    <img src="https://cdn-icons-png.flaticon.com/512/174/174857.png" alt="LinkedIn" style="width: 16px;">
+                    LinkedIn
+                </a>
+                <a href="https://github.com/rishi781" target="_blank">
+                    <img src="https://cdn-icons-png.flaticon.com/512/25/25231.png" alt="GitHub" style="width: 16px;">
+                    GitHub
+                </a>
+            </div>
+    </div>
+
+        <!-- Course Section -->
+        <div class="card" id="course">
+            <h2>Course</h2> <hr><br>
+            <p><strong> <li>KODNEST TECHNOLOGIES | Jan. 2025 - July. 2025 </li></strong></p>
+            <p><i><strong>Full Stack Web Development and Manual & Automation Testing Course</strong></i></p><br>
+            <p>• Built and contributed to full-stack web applications using Spring Boot (Java) for the backend, ReactJS for the frontend, and MySQL for database operations.</p>
+            <p>• Developed and consumed RESTful APIs, implemented complete CRUD functionalities, and ensured smooth integration between frontend and backend.</p>
+            <p>• Gained hands-on experience with the Software Development Life Cycle (SDLC), debugging, and version control using Git.</p>
+            <p>• Trained in Manual & Automation Testing using Selenium with Java — including writing test cases, executing automation scripts, and analyzing test outcomes.</p>
+            <p>• Applied core skills in Java, MongoDB, Python, HTML, CSS, and JavaScript to complete real-world, project-based assignments.</p>
+            <p>• Worked in an Agile environment, actively participated in daily stand-up meetings, and delivered quality modules within tight deadlines.</p> <br>
+            
+        </div>
+
+
+        <!-- Projects Section -->
+        <div class="card" id="projects">
+            <h2>Projects</h2><hr><br>
+
+            <li class="list-item">
+                    <strong>EMPLOYEE CRUD APPLICATION</strong>
+                    <p><i><u>Java, Spring Boot, Spring MVC, Spring Data JPA, MySQL, HTML, CSS | June 2025</u></i></p><br>
+                     <p><a href="https://github.com/rishi781/springboot-employee-crud" target="_blank">🔗 GitHub Repository</a></p>
+                    <li><strong>Spring Batch Framework:</strong> Used Spring Boot to build a RESTful backend application that handles employee data 
+                        with Create, Read, Update, and Delete (CRUD) functionalities.</li>
+                    <li><strong>Spring MVC & Controller Endpoints:</strong> Defined clear routing logic and controller methods to manage operations like create, 
+                        search, update, delete, and view all employees. Each HTML form is connected to specific endpoints for seamless user interaction.</li>
+                    <li><strong>Spring Data JPA & MySQL Integration:</strong>  Implemented repository interfaces using Spring Data JPA to interact with a MySQL 
+                        database for persistent storage of employee records. Ensured smooth ORM mapping and CRUD handling through JPA annotations.
+                        </li>
+                    <li><strong>Frontend (HTML + CSS):</strong> Developed a clean, responsive UI using HTML and CSS. Each CRUD operation has a dedicated, 
+                        styled form or view page for better usability and navigation.</li>
+                    <li><strong>Features Implemented:</strong> Create, Search, Update, Delete, and View employee records with a 
+                        clean UI and RESTful backend.</li>
+                </li><br> <hr><hr><hr> <br>
+
+            <li class="list-item;" >
+                   <strong>PYTHON FOOD APP CRUD OPERATION</strong>
+                   <p><i><u>Python, Django, HTML, CSS, Bootstrap, SQLite | May 2025</u></i></p><br>
+                    <p><a href="https://github.com/rishi781/Python-Food-App-CRUD-Operation" target="_blank">🔗 GitHub Repository</a></p><br>
+                    <li><strong>Django Framework:</strong> Used Django to build a full-stack web application with CRUD operations for managing 
+                        food menu items, including image support via URL.</li>
+                    <li><strong>URL Routing & Views:</strong> Set up Django views and routing to handle operations like add, update, delete, and 
+                        view. Each route maps to a dedicated HTML template for a seamless user experience.</li>
+                    <li><strong>Authentication System:</strong> Integrated Django’s built-in authentication to support user registration, login, 
+                        logout, and profile viewing, with access control for specific pages.</li>
+                    <li><strong>Admin Panel & ORM:</strong> Leveraged Django Admin for backend management and used Django’s ORM to handle 
+                        database operations with SQLite.</li>
+                    <li><strong>Backend (Django + SQLite):</strong> Handled CRUD logic with Django views and ORM, integrated user authentication, 
+                        and configured admin panel for easy data management.</li>
+                    <li><strong>Frontend (HTML, CSS, Bootstrap):</strong> Built responsive pages with Bootstrap, styled forms for each CRUD 
+                        operation, added profile/logout views, and enabled image display via URL.</li>
+                    <li><strong>Features Implemented:</strong> User registration and login, Create, Read, Update, Delete food items, view profile, 
+                        image support via URL, and a logout page with a custom message.</li>
+                </li><br> <hr><hr><hr> <br>
+
+                <li class="list-item;" >
+                   <strong>SPRING SECURITY – OTP EMAIL VERIFICATION SYSTEM</strong>
+                   <p><i><u>Java, Spring Boot, Spring Security, Thymeleaf, Tailwind CSS, JavaMail, MySQL | July 2025</u></i></p><br>
+                    <p><a href="https://github.com/rishi781/Spring-Security---OTP" target="_blank">🔗 GitHub Repository</a></p><br>
+                    <li><strong>Spring Security + OTP Workflow:</strong> Developed a secure web application where users can verify their email through a 6-digit One-Time Password (OTP) 
+                        sent via Gmail SMTP, showcasing secure login flows and custom email integration.</li>
+                    <li><strong>Email Integration:</strong> Implemented JavaMailSender with Gmail SMTP to send OTPs dynamically using Java’s Random class. 
+                        OTP is temporarily stored in memory for validation in a demo environment.</li>
+
+                    <li><strong>Frontend:</strong> Built with Thymeleaf and Tailwind CSS for a responsive UI. 
+                            Includes pages for email input, OTP entry, and result display.</li>
+                    <li><strong>Backend:</strong> Generates OTP using Java’s Random class. Handles /send and /verify via Spring Boot controllers. 
+                            Uses Spring Boot Mail for email delivery and integrates MySQL with Spring Data JPA for optional user tracking.</li>
+                    <li><strong>Features:</strong> Email-based OTP verification using Spring Security principles with clean, 
+                            responsive UI and real-time validation feedback.</li>
+                </li><br><hr><hr><hr> <br>
+
+                <li class="list-item">
+                    <strong>TASKBUDDY</strong>
+                    <p><u><i>React, JavaScript (ES6+), Vite, HTML5, CSS, localStorage | April 2025</i></u></p> <br>
+                      <p><a href="https://github.com/rishi781/TaskBuddy-Project" target="_blank">🔗 GitHub Repository</a></p>
+                    <li><strong>React-Based Task Manager:</strong> Built a lightweight and user-friendly to-do list application using React
+                         and Vite, enabling users to manage daily tasks effectively with real-time feedback.</li>
+                    <li><strong>Component-Based Architecture:</strong> Structured the app with reusable components like TaskForm,
+                         TaskList, and ProgressTracker, promoting modularity and easy maintenance.</li>
+                    <li><strong>State Management & DOM Interaction:</strong> Used React hooks (useState, useEffect) to manage task states, 
+                        interact with the DOM, and dynamically update UI based on user actions.</li>
+                    <li><strong>Local Storage Integration:</strong> Implemented browser localStorage to persist task data, ensuring all tasks 
+                        remain saved even after refreshing or closing the browser — works offline too.</li>
+                    <li><strong>Features Implemented:</strong> Add, update, delete, and clear tasks with a clean React UI. 
+                        Tracks progress and stores data offline using localStorage.</li>
+                    <li><strong>Styling & UX:</strong> Designed a responsive and clean UI using custom CSS with Tailwind-style utility classes 
+                        for fast styling and consistency across components.</li>
+                </li>
+            </ul>
+        </div>
+        
+        <!-- Education Section -->
+        <div class="card" id="education">
+            <h2>Education</h2><hr><br>
+            <ul>
+                <li><strong>Degree:</strong> Bachelor of Engineering in  Computer Science and Engineering<br><strong>Year Of Passed Out:</strong> 2022<br><strong>CGPA:</strong> 7.57</li> <br>
+                <li><strong>Class XII (Pre-University):</strong> In PCMCS<br><strong>Year Of Passed Out:</strong> 2018<br><strong>Percentage:</strong> 55.33%</li><br>
+                <li><strong>Class X (Secondary School):</strong><br><strong>Year Of Passed Out:</strong> 2016<br><strong>CGPA:</strong> 7.4</li><br>
+            </ul>
+        </div>
+
+        <!-- Internship Section -->
+        <div class="card" id="internship">
+            <h2>Internship</h2> <hr><br>
+            <p><strong> <li>TECH FORTUNE TECHNOLOGIES | August. 2021 - September 2021 </li></strong></p>
+            <p><i><strong>Machine Learning Intern</strong></i></p><br>
+            <p>• Worked on real-world machine learning projects using Python, focusing on data preprocessing, model training, and evaluation.</p>
+            <p>• Utilized libraries like NumPy and Pandas for efficient data manipulation and cleaning of large datasets.</p>
+            <p>• Created insightful data visualizations using Matplotlib to identify patterns and support model decisions.</p>
+            <p>• Developed a Spam Detection System using supervised learning algorithms to classify messages as spam or not spam.</p>
+            <p>• Gained practical understanding of machine learning workflows, from data loading and exploration to model accuracy optimization.</p>
+            <p>• Collaborated with mentors and peers in a structured internship environment to meet deadlines and improve model performance.</p>
+        </div>
+
+
+        <!-- Skills Section -->
+        <div class="card" id="skills">
+            <h2>Skills</h2>
+            <hr><br>
+            <div class="skills-bar">
+                <label>Java</label>
+                <span class="bar-container" style="--fill: 95%;">
+                    <span class="percentage">95%</span>
+                </span>
+            </div>
+            <div class="skills-bar">
+                <label>Python</label>
+                <span class="bar-container" style="--fill: 90%;">
+                    <span class="percentage">90%</span>
+                </span>
+            </div>
+            <div class="skills-bar">
+                <label>HTML5,CSS3 </label>
+                <span class="bar-container" style="--fill: 80%;">
+                    <span class="percentage">80%</span>
+                </span>
+            </div>
+            <div class="skills-bar">
+                <label>JavaScript</label>
+                <span class="bar-container" style="--fill: 70%;">
+                    <span class="percentage">70%</span>
+                </span>
+            </div>
+            <div class="skills-bar">
+                <label>ReactJS</label>
+                <span class="bar-container" style="--fill: 75%;">
+                    <span class="percentage">75%</span>
+                </span>
+            </div>
+            <div class="skills-bar">
+                <label>SQL</label>
+                <span class="bar-container" style="--fill: 85%;">
+                    <span class="percentage">85%</span>
+                </span>
+            </div>
+            <div class="skills-bar">
+                <label>MongoDB</label>
+                <span class="bar-container" style="--fill: 75%;">
+                    <span class="percentage">75%</span>
+                </span>
+            </div>
+            <div class="skills-bar">
+                <label>Spring Boot</label>
+                <span class="bar-container" style="--fill: 60%;">
+                    <span class="percentage">60%</span>
+                </span>
+            </div>
+            <div class="skills-bar">
+                <label>Selenium</label>
+                <span class="bar-container" style="--fill: 80%;">
+                    <span class="percentage">80%</span>
+                </span>
+            </div>
+
+            <div class="skills-bar">
+                <label>PL/SQL</label>
+                <span class="bar-container" style="--fill: 80%;">
+                    <span class="percentage">85%</span>
+                </span>
+            </div>
+            
+        </div>
+        
+        
+        <!-- Contact Section -->
+        <div class="card" id="contact">
+            <h2>Contact</h2><hr><br>
+            <p>Email: <a href="mailto:tarun@example.com">rishi.shankarappa@gmail.com</a></p>
+            <p>Phone: +91 9964779403</p>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <p>© 2025 Rishi S. All rights reserved.</p>
+    </footer>
+
+    <!-- JavaScript -->
+    <script>
+        const themeToggle = document.getElementById('themeToggle');
+        const body = document.body;
+
+        // Theme Toggle
+        themeToggle.addEventListener('click', () => {
+            body.classList.toggle('dark');
+            themeToggle.classList.toggle('dark');
+        });
+
+        // Scroll Progress
+        const progressBar = document.getElementById('progressBar');
+        window.addEventListener('scroll', () => {
+            const scrollTop = window.scrollY;
+            const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+            const scrolled = (scrollTop / docHeight) * 100;
+            progressBar.style.width = `${scrolled}%`;
+        });
+
+        // Scroll to Section
+        function scrollToSection(id) {
+            const section = document.getElementById(id);
+            if (section) {
+                section.scrollIntoView({ behavior: 'smooth' });
+            }
+        }
+    </script>
+</body>
+</html>
